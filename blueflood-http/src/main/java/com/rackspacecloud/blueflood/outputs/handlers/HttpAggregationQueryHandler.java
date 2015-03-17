@@ -148,7 +148,14 @@ public class HttpAggregationQueryHandler extends RollupHandler implements HttpRe
         
         final Timer.Context httpMetricsFetchTimerContext = httpMetricsFetchTimer.time();
         
-        JsonObject body = (JsonObject) parser.parse(sbody);
+        JsonElement elem = parser.parse(sbody);
+        if (elem == null) {
+        	sendResponse(ctx, request, "Invalid body. Expected JSON object.",
+                    HttpResponseStatus.BAD_REQUEST);
+            return;
+        }
+        JsonObject body = elem.getAsJsonObject();
+        
         JsonArray metrics = body.get("metrics").getAsJsonArray();
         
         if (metrics == null || metrics.isJsonNull() || metrics.size() == 0) {
