@@ -38,6 +38,7 @@ import com.rackspacecloud.blueflood.outputs.formats.MetricData;
 import com.rackspacecloud.blueflood.outputs.serializers.BatchedMetricsJSONOutputSerializer;
 import com.rackspacecloud.blueflood.outputs.serializers.BatchedMetricsOutputSerializer;
 import com.rackspacecloud.blueflood.outputs.serializers.BasicRollupsOutputSerializer.MetricStat;
+import com.rackspacecloud.blueflood.outputs.utils.PlotRequestParser;
 import com.rackspacecloud.blueflood.outputs.utils.RollupsQueryParams;
 import com.rackspacecloud.blueflood.service.Configuration;
 import com.rackspacecloud.blueflood.service.HttpConfig;
@@ -46,6 +47,7 @@ import com.rackspacecloud.blueflood.types.Locator;
 import com.rackspacecloud.blueflood.types.Resolution;
 import com.rackspacecloud.blueflood.utils.Metrics;
 import com.rackspacecloud.blueflood.utils.TimeValue;
+
 
 public class HttpAggregationQueryHandler implements HttpRequestHandler {
 	private static final Logger log = LoggerFactory.getLogger(HttpMultiRollupsQueryHandler.class);
@@ -89,13 +91,20 @@ public class HttpAggregationQueryHandler implements HttpRequestHandler {
             throw new InvalidRequestException("paramter 'to' must be greater than 'from'");
         }
 		
-		Set<MetricStat> stats = new HashSet<MetricStat>();
-		if (obj.get("stats") != null) {
+		Set<MetricStat> stats;
+		if (obj.get("stats") != null || obj.get("stats").getAsJsonArray().size() != 0) {
+			stats = new HashSet<MetricStat>();
 			JsonArray statsArray = obj.get("stats").getAsJsonArray();
 			Iterator<JsonElement> it = statsArray.iterator();
 			while (it.hasNext()) {
-				stats.add(gson.fromJson(it.next(), MetricStat.class));
+				MetricStat stat = MetricStat.fromString(it.next().getAsString());
+				if (stat == null) {
+					throw new InvalidRequestException("At least one specified functions is incorrect.");
+				}
+				stats.add(stat);
 			}
+		} else {
+			stats = PlotRequestParser.DEFAULT_STATS;
 		}
 		
 		if (obj.get("points") != null) {
@@ -181,9 +190,7 @@ public class HttpAggregationQueryHandler implements HttpRequestHandler {
         	RollupsQueryParams params = this.parse(body);
         	BatchMetricsQuery query = new BatchMetricsQuery(locators, params.getRange(), params.getGranularity());
         	Map<Locator, MetricData> results = new BatchMetricsQueryHandler(executor, AstyanaxReader.getInstance()).execute(query, queryTimeout);
-        	
-        	System.out.println(gson.toJson(results));
-        	
+        	        	
         	JSONObject series = serializer.transformRollupData(results, params.getStats());
             final JsonElement element = parser.parse(series.toString());
             final String jsonStringRep = gson.toJson(element);
