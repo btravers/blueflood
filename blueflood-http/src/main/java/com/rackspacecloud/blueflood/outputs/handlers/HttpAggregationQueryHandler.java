@@ -92,7 +92,7 @@ public class HttpAggregationQueryHandler implements HttpRequestHandler {
         }
 		
 		Set<MetricStat> stats;
-		if (obj.get("stats") != null || obj.get("stats").getAsJsonArray().size() != 0) {
+		if (obj.get("stats") != null && obj.get("stats").getAsJsonArray().size() != 0) {
 			stats = new HashSet<MetricStat>();
 			JsonArray statsArray = obj.get("stats").getAsJsonArray();
 			Iterator<JsonElement> it = statsArray.iterator();
