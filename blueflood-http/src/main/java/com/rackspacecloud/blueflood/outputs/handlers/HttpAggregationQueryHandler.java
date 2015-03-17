@@ -47,8 +47,7 @@ import com.rackspacecloud.blueflood.types.Resolution;
 import com.rackspacecloud.blueflood.utils.Metrics;
 import com.rackspacecloud.blueflood.utils.TimeValue;
 
-public class HttpAggregationQueryHandler extends RollupHandler implements HttpRequestHandler {
-	
+public class HttpAggregationQueryHandler implements HttpRequestHandler {
 	private static final Logger log = LoggerFactory.getLogger(HttpMultiRollupsQueryHandler.class);
     private final BatchedMetricsOutputSerializer<JSONObject> serializer;
     private final Gson gson;           // thread-safe
@@ -113,7 +112,7 @@ public class HttpAggregationQueryHandler extends RollupHandler implements HttpRe
 	}
 	
 	private List<Locator> getLocators(JsonArray arr) throws InvalidRequestException {
-		List<Locator> locators = new ArrayList<Locator>();
+		final List<Locator> locators = new ArrayList<Locator>();
 		
 		Iterator<JsonElement> it = arr.iterator();
 		while (it.hasNext()) {
@@ -146,8 +145,6 @@ public class HttpAggregationQueryHandler extends RollupHandler implements HttpRe
             return;
         }
         
-        final Timer.Context httpMetricsFetchTimerContext = httpMetricsFetchTimer.time();
-        
         JsonElement elem = parser.parse(sbody);
         if (elem == null) {
         	sendResponse(ctx, request, "Invalid body. Expected JSON object.",
@@ -159,30 +156,36 @@ public class HttpAggregationQueryHandler extends RollupHandler implements HttpRe
         JsonArray metrics = body.get("metrics").getAsJsonArray();
         
         if (metrics == null || metrics.isJsonNull() || metrics.size() == 0) {
-        	sendResponse(ctx, request, "Invalid body. Expected at least one metric.",
-                    HttpResponseStatus.BAD_REQUEST);
+        	sendResponse(ctx, request, "Invalid body. Expected at least one metric.", HttpResponseStatus.BAD_REQUEST);
             return;
         }
         
+        List<Locator> locators;
         try {
-        	List<Locator> locators = this.getLocators(metrics);
+        	locators = this.getLocators(metrics);
+        } catch (Exception ex) {
+            log.debug(ex.getMessage(), ex);
+            sendResponse(ctx, request, ex.getMessage(), HttpResponseStatus.BAD_REQUEST);
+            return;
+        }
             
-            if (metrics.size() > maxMetricsPerRequest) {
-                sendResponse(ctx, request, "Too many metrics fetch in a single call. Max limit is " + maxMetricsPerRequest
-                        + ".", HttpResponseStatus.BAD_REQUEST);
-                return;
-            }
-            
+        if (locators.size() > maxMetricsPerRequest) {
+            sendResponse(ctx, request, "Too many metrics fetch in a single call. Max limit is " + maxMetricsPerRequest
+                    + ".", HttpResponseStatus.BAD_REQUEST);
+            return;
+        }
+        
+        final Timer.Context httpMetricsFetchTimerContext = httpMetricsFetchTimer.time();
+           
+        try {
         	RollupsQueryParams params = this.parse(body);
-        	
         	BatchMetricsQuery query = new BatchMetricsQuery(locators, params.getRange(), params.getGranularity());
-        	
         	Map<Locator, MetricData> results = new BatchMetricsQueryHandler(executor, AstyanaxReader.getInstance()).execute(query, queryTimeout);
+        	
         	JSONObject series = serializer.transformRollupData(results, params.getStats());
             final JsonElement element = parser.parse(series.toString());
             final String jsonStringRep = gson.toJson(element);
             sendResponse(ctx, request, jsonStringRep, HttpResponseStatus.OK);
-        	
 		} catch (InvalidRequestException e) {
 			log.warn(e.getMessage());
             sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.BAD_REQUEST);
