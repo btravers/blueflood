@@ -126,7 +126,8 @@ public class JSONBasicRollupsOutputSerializer implements BasicRollupsOutputSeria
             numPoints += rollup.getCount().longValue();
             filterStatsObject = getFilteredStatsForRollup(rollup, filterStats);
         } else {
-            throw new SerializationException("Unsupported data type for Point");
+        	String errString = String.format("Unsupported datatype for Point %s", point.getData().getClass());
+            throw new SerializationException(errString);
         }
 
         // Set all filtered stats to null if numPoints is 0

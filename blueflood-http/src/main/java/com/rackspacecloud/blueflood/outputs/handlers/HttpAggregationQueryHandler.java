@@ -182,6 +182,8 @@ public class HttpAggregationQueryHandler implements HttpRequestHandler {
         	BatchMetricsQuery query = new BatchMetricsQuery(locators, params.getRange(), params.getGranularity());
         	Map<Locator, MetricData> results = new BatchMetricsQueryHandler(executor, AstyanaxReader.getInstance()).execute(query, queryTimeout);
         	
+        	System.out.println(gson.toJson(results));
+        	
         	JSONObject series = serializer.transformRollupData(results, params.getStats());
             final JsonElement element = parser.parse(series.toString());
             final String jsonStringRep = gson.toJson(element);
