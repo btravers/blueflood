@@ -26,7 +26,7 @@ public class RequestParser {
 			throw new InvalidRequestException("Missing valid argument to.");
 		}
 		
-		if (query.getMaxDataPoints() == 0 || query.getResolution() == null) {
+		if (query.getMaxDataPoints() == 0 && query.getResolution() == null) {
 			throw new InvalidRequestException("Missing valid argument maxDataPoints or resolution.");
 		}
 		
