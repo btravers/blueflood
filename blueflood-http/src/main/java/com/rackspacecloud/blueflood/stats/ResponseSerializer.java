@@ -64,16 +64,17 @@ public class ResponseSerializer {
 		Map<Long, Point> points = datapoints.getData().getPoints();
 		for (Map.Entry<Long, Point> p : points.entrySet()) {
 			JsonArray serializePoint = new JsonArray();
-			
-			serializePoint.add(new JsonPrimitive(p.getKey()));
-			
+					
 			if (p.getValue().getData() instanceof SimpleNumber) {
 				SimpleNumber number = (SimpleNumber) p.getValue().getData();
 				serializePoint.add(new JsonPrimitive(number.getValue()));
-				res.add(serializePoint);
+				
 			} else {
 				throw new SerializationException("Unexpected datatype");
 			}
+			serializePoint.add(new JsonPrimitive(p.getKey()));
+			
+			res.add(serializePoint);
 			
 		}
 		
