@@ -69,7 +69,8 @@ public class ResponseSerializer {
 			
 			if (p.getValue().getData() instanceof SimpleNumber) {
 				SimpleNumber number = (SimpleNumber) p.getValue().getData();
-				serializePoint.add(new JsonPrimitive(number.getValue().doubleValue()));
+				serializePoint.add(new JsonPrimitive(number.getValue()));
+				res.add(serializePoint);
 			} else {
 				throw new SerializationException("Unexpected datatype");
 			}
