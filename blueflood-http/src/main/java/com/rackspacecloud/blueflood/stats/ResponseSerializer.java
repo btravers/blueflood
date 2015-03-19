@@ -33,7 +33,6 @@ public class ResponseSerializer {
 		serie.add("datapoints", serializeDatapoints(datapoints));
 		
 		Gson gson = new Gson();
-		System.out.println(gson.toJson(datapoints));
 		
 		return serie;
 	}
