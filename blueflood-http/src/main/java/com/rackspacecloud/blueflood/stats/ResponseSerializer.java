@@ -1,5 +1,6 @@
 package com.rackspacecloud.blueflood.stats;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gson.JsonArray;
@@ -18,19 +19,39 @@ public class ResponseSerializer {
 		JsonArray jsonResult = new JsonArray();
 		
 		for (Map.Entry<Target, MetricData> serie : results.entrySet()) {
-			jsonResult.add(serializeSerie(serie.getKey().getTenantId(), serie.getKey().getMetricName(), serie.getValue()));
+			jsonResult.add(serializeSerie(serie.getKey(), serie.getValue()));
 		}
 
 		return jsonResult;
 	}
 	
-	private static JsonObject serializeSerie(String tenantId, String metricName, MetricData datapoints) throws SerializationException {
+	private static JsonObject serializeSerie(Target target, MetricData datapoints) throws SerializationException {
 		JsonObject serie = new JsonObject();
 		
-		serie.addProperty("target", tenantId + ":" + metricName);
+		serie.add("target", new JsonPrimitive(serializeTargetName(target)));
 		serie.add("datapoints", serializeDatapoints(datapoints));
 		
 		return serie;
+	}
+	
+	private static String serializeTargetName(Target target) {
+		if (target.isMetric()) {
+			return target.getTenantId() + ":" + target.getMetricName();
+		} else{
+			String name = target.getName() + "(";
+			
+			Iterator<Target> it = target.getParameters().iterator();			
+			while (it.hasNext()) {
+				name += serializeTargetName(it.next());
+				
+				if (it.hasNext()) {
+					name += ", ";
+				}
+			}
+			
+			name += ")";
+			return name;
+		}
 	}
 	
 	private static JsonArray serializeDatapoints(MetricData datapoints) throws SerializationException {

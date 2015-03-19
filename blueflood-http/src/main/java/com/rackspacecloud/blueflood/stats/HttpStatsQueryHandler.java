@@ -53,10 +53,10 @@ public class HttpStatsQueryHandler implements HttpRequestHandler {
 			sendResponse(ctx, request, response.toString(), HttpResponseStatus.OK);
 		} catch (SerializationException e) {
 			log.error(e.getMessage(), e);
-            sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.BAD_REQUEST);
+            sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.INTERNAL_SERVER_ERROR);
 		} catch (TargetTypeException e) {
 			log.error(e.getMessage(), e);
-            sendResponse(ctx, request, e.getMessage(), HttpResponseStatus.INTERNAL_SERVER_ERROR);
+            sendResponse(ctx, request, e.getMessage(), HttpResponseStatus.BAD_REQUEST);
 		} finally {
             httpMetricsFetchTimerContext.stop();
         }
