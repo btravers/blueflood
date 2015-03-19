@@ -27,7 +27,11 @@ public enum StatFunction {
 			Map<Long, Point> firstPoints = firstParam.getData().getPoints();
 			
 			for (Map.Entry<Long, Point> point : firstPoints.entrySet()) {
-				values.put(point.getKey(), ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue());
+				if (point.getValue().getData() instanceof SimpleNumber) {
+					values.put(point.getKey(), ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue());
+				} else {
+					throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
+				}
 			}
 			
 			while (it.hasNext()) {
@@ -36,7 +40,11 @@ public enum StatFunction {
 				
 				for (Map.Entry<Long, Point> point : dataPoints.entrySet()) {
 					Double tmp = values.get(point.getKey());
-					values.put(point.getKey(),((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() + tmp);
+					if (point.getValue().getData() instanceof SimpleNumber) {
+						values.put(point.getKey(),((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() + tmp);
+					} else {
+						throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
+					}
 				}
 			}
 			
@@ -64,7 +72,11 @@ public enum StatFunction {
 			Map<Long, Point> firstPoints = firstParam.getData().getPoints();
 			
 			for (Map.Entry<Long, Point> point : firstPoints.entrySet()) {
-				values.put(point.getKey(), ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue());
+				if (point.getValue().getData() instanceof SimpleNumber) {
+					values.put(point.getKey(), ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue());
+				} else {
+					throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
+				}
 			}
 			
 			while (it.hasNext()) {
@@ -72,9 +84,12 @@ public enum StatFunction {
 				Map<Long, Point> dataPoints = data.getData().getPoints();
 				
 				for (Map.Entry<Long, Point> point : dataPoints.entrySet()) {
-					
 					Double tmp = values.get(point.getKey());
-					values.put(point.getKey(),((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() + tmp);
+					if (point.getValue().getData() instanceof SimpleNumber) {
+						values.put(point.getKey(),((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() + tmp);
+					} else {
+						throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
+					}
 				}
 			}
 			
