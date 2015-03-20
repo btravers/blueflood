@@ -21,15 +21,21 @@ import com.rackspacecloud.blueflood.http.HttpResponder;
 import com.rackspacecloud.blueflood.io.Constants;
 import com.rackspacecloud.blueflood.outputs.formats.MetricData;
 import com.rackspacecloud.blueflood.outputs.handlers.HttpMultiRollupsQueryHandler;
+import com.rackspacecloud.blueflood.service.Configuration;
+import com.rackspacecloud.blueflood.service.HttpConfig;
 import com.rackspacecloud.blueflood.utils.Metrics;
 
 public class HttpStatsQueryHandler implements HttpRequestHandler {
 	private static final Logger log = LoggerFactory.getLogger(HttpMultiRollupsQueryHandler.class);
 	private final Timer httpMetricsFetchTimer = Metrics.timer(HttpStatsQueryHandler.class, "Handle HTTP request for metrics");
 	private RequestParser parser;
+	private final int maxMetricsPerRequest;
 	
 	public HttpStatsQueryHandler() {
+		Configuration config = Configuration.getInstance();
+		
 		parser = new RequestParser();
+		maxMetricsPerRequest = config.getIntegerProperty(HttpConfig.MAX_METRICS_PER_BATCH_QUERY);
 	}
 	
 	@Override
@@ -42,6 +48,12 @@ public class HttpStatsQueryHandler implements HttpRequestHandler {
 		} catch (InvalidRequestException e) {
 			log.error(e.getMessage(), e);
 			sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.BAD_REQUEST);
+            return;
+		}
+		
+		if (query.getTargets().size() > maxMetricsPerRequest) {
+			sendResponse(ctx, request, "Too many metrics fetch in a single call. Max limit is " + maxMetricsPerRequest
+                    + ".", HttpResponseStatus.BAD_REQUEST);
             return;
 		}
 		
