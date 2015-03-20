@@ -41,12 +41,13 @@ public enum StatFunction {
 				Map<Long, Point> dataPoints = data.getData().getPoints();
 				
 				for (Map.Entry<Long, Point> point : dataPoints.entrySet()) {
-					Double tmp = values.get(point.getKey());
+					long timestamp = point.getKey() - (point.getKey()%60000);
+					
+					Double tmp = values.get(timestamp);
 					if (tmp == null) {
 						tmp = 0.0;
 					}
 					
-					long timestamp = point.getKey() - (point.getKey()%60000);
 					if (point.getValue().getData() instanceof SimpleNumber) {
 						values.put(timestamp,((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() + tmp);
 					} else if (point.getValue().getData() instanceof BasicRollup) {
@@ -98,12 +99,13 @@ public enum StatFunction {
 				Map<Long, Point> dataPoints = data.getData().getPoints();
 				
 				for (Map.Entry<Long, Point> point : dataPoints.entrySet()) {
-					Double tmp = values.get(point.getKey());
+					long timestamp = point.getKey() - (point.getKey()%60000);
+					
+					Double tmp = values.get(timestamp);
 					if (tmp == null) {
 						tmp = 0.0;
 					}
 					
-					long timestamp = point.getKey() - (point.getKey()%60000);
 					if (point.getValue().getData() instanceof SimpleNumber) {
 						values.put(timestamp,((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() + tmp);
 					} else if (point.getValue().getData() instanceof BasicRollup) {
