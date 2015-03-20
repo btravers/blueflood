@@ -64,8 +64,6 @@ public class HttpMetricDataQueryServer {
         router.get("/v2.0/:tenantId/views/histograms/:metricName", new HttpHistogramQueryHandler());
         router.get("/v2.0/:tenantId/metrics/search", new HttpMetricsIndexHandler());
         
-        router.post("/v3.0", new HttpAggregationQueryHandler());
-        
         router.post("/stats", new HttpStatsQueryHandler());
 
         log.info("Starting metric data query server (HTTP) on port {}", this.httpQueryPort);
