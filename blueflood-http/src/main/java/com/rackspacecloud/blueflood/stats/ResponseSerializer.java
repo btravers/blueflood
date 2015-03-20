@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.rackspacecloud.blueflood.exceptions.SerializationException;
 import com.rackspacecloud.blueflood.outputs.formats.MetricData;
+import com.rackspacecloud.blueflood.types.BasicRollup;
 import com.rackspacecloud.blueflood.types.Points.Point;
 import com.rackspacecloud.blueflood.types.SimpleNumber;
 
@@ -67,13 +68,20 @@ public class ResponseSerializer {
 			if (p.getValue().getData() instanceof SimpleNumber) {
 				SimpleNumber number = (SimpleNumber) p.getValue().getData();
 				serializePoint.add(new JsonPrimitive(number.getValue()));
+			} else if (p.getValue().getData() instanceof BasicRollup) {
+				BasicRollup number = (BasicRollup) p.getValue().getData();
+				if (number.getAverage().isFloatingPoint()) {
+					serializePoint.add(new JsonPrimitive(number.getAverage().toDouble()));
+				} else {
+					serializePoint.add(new JsonPrimitive(number.getAverage().toLong()));
+				}
+				
 			} else {
 				throw new SerializationException("Unexpected datatype. " + p.getValue().getData().getClass());
 			}
 			serializePoint.add(new JsonPrimitive(p.getKey()));
 			
 			res.add(serializePoint);
-			
 		}
 		
 		return res;
