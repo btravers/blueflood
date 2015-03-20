@@ -159,12 +159,30 @@ public enum StatFunction {
 			for (Map.Entry<Long, Point> point : points.entrySet()) {
 				if (prev != null) {
 					if (point.getValue().getData() instanceof SimpleNumber) {
-						resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber(((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue() - prev.doubleValue())));
+						Number tmp = ((Point<SimpleNumber>) point.getValue()).getData().getValue();
+						resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber(tmp.doubleValue() - prev.doubleValue())));
+						prev = tmp;
 					} else if (point.getValue().getData() instanceof BasicRollup) {
 						if (((Point<BasicRollup>) point.getValue()).getData().getAverage().isFloatingPoint()) {
-							resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber(((Point<BasicRollup>) point.getValue()).getData().getAverage().toDouble() - prev.doubleValue())));
+							Number tmp = ((Point<BasicRollup>) point.getValue()).getData().getAverage().toDouble();
+							resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber(tmp.doubleValue() - prev.doubleValue())));
+							prev = tmp;
 						}else {
-							resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber(((Point<BasicRollup>) point.getValue()).getData().getAverage().toLong() - prev.doubleValue() )));
+							Number tmp = ((Point<BasicRollup>) point.getValue()).getData().getAverage().toLong();
+							resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber(tmp.doubleValue() - prev.doubleValue() )));
+							prev = tmp;
+						}
+					} else {
+						throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
+					}
+				} else {
+					if (point.getValue().getData() instanceof SimpleNumber) {
+						prev = ((Point<SimpleNumber>) point.getValue()).getData().getValue();
+					} else if (point.getValue().getData() instanceof BasicRollup) {
+						if (((Point<BasicRollup>) point.getValue()).getData().getAverage().isFloatingPoint()) {
+							prev = ((Point<BasicRollup>) point.getValue()).getData().getAverage().toDouble();
+						}else {
+							prev = ((Point<BasicRollup>) point.getValue()).getData().getAverage().toLong();
 						}
 					} else {
 						throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
