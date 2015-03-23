@@ -66,14 +66,19 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 		} else if (t.isFunction()) {
 			if (t.isValidFunction()) {
 				List<MetricData> params = new ArrayList<MetricData>();
+				List<Double> constantValues = new ArrayList<Double>();
 				for (Target param : t.getParameters()) {
-					params.add(this.getData(param));
+					if (param.isConstantValue()) {
+						constantValues.add(param.getConstantParam());
+					} else {
+						params.add(this.getData(param));
+					}
 				}
 				StatFunction function = StatFunction.fromString(t.getName());
 				if (function == null) {
 					throw new TargetTypeException("Unexpected function.");
 				}
-				return function.exec(params);
+				return function.exec(params, constantValues);
 			} else {
 				throw new TargetTypeException("Invalid target.");
 			}

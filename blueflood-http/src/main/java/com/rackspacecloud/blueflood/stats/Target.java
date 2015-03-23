@@ -10,6 +10,7 @@ public class Target {
 	private List<Target> parameters;
 	private String tenantId;
 	private String metricName;
+	private Double constantParam;
 	
 	public String getTenantId() {
 		return tenantId;
@@ -34,6 +35,7 @@ public class Target {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public List<Target> getParameters() {
 		return parameters;
 	}
@@ -42,12 +44,24 @@ public class Target {
 		this.parameters = parameters;
 	}
 	
+	public Double getConstantParam() {
+		return constantParam;
+	}
+	
+	public void setConstantParam(Double constantParam) {
+		this.constantParam = constantParam;
+	}
+	
 	public boolean isMetric() {
 		return tenantId != null;
 	}
 	
 	public boolean isFunction() {
 		return name != null;
+	}
+	
+	public boolean isConstantValue() {
+		return constantParam != null;
 	}
 	
 	public boolean isValidMetric() {
