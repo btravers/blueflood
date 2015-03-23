@@ -321,7 +321,6 @@ public enum StatFunction {
 				double tmp = 0;
 				val *= 100;
 				if (point.getValue().getData() instanceof SimpleNumber) {
-					 
 					tmp = ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue();
 				} else if (point.getValue().getData() instanceof BasicRollup) {
 					if (((Point<BasicRollup>) point.getValue()).getData().getAverage().isFloatingPoint()) {
