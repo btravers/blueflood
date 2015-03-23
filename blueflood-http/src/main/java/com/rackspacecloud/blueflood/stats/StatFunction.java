@@ -310,28 +310,33 @@ public enum StatFunction {
 			Points<SimpleNumber> resultPoints = new Points<SimpleNumber>();
 			
 			Map<Long, Point> secondSeriePoints = params.get(1).getData().getPoints();
-			for (Map.Entry<Long, Point> point : firstSeriePoints.entrySet()) {
+			for (Map.Entry<Long, Point> point : secondSeriePoints.entrySet()) {
 				long timestamp = point.getKey() - (point.getKey()%GRANULARITY);
 				Double val = values.get(timestamp);
 				
 				if (val == null) {
 					val = 0.0;
 				}
-					
+				
+				double tmp = 0;
 				val *= 100;
 				if (point.getValue().getData() instanceof SimpleNumber) {
-					val /= ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue();
+					 
+					tmp = ((Point<SimpleNumber>) point.getValue()).getData().getValue().doubleValue();
 				} else if (point.getValue().getData() instanceof BasicRollup) {
 					if (((Point<BasicRollup>) point.getValue()).getData().getAverage().isFloatingPoint()) {
-						val /= ((Point<BasicRollup>) point.getValue()).getData().getAverage().toDouble();
+						tmp = ((Point<BasicRollup>) point.getValue()).getData().getAverage().toDouble();
 					}else {
-						val /= ((Point<BasicRollup>) point.getValue()).getData().getAverage().toLong();
+						tmp = ((Point<BasicRollup>) point.getValue()).getData().getAverage().toLong();
 					}
 				} else {
 					throw new TargetTypeException("Stats requests expect SimpleNumber data instead of " + point.getClass());
 				}
 			
-				resultPoints.add(new Point<SimpleNumber>(timestamp, new SimpleNumber(val)));
+				if (tmp != 0) {
+					resultPoints.add(new Point<SimpleNumber>(timestamp, new SimpleNumber(val/tmp)));
+				}
+				
 			}
 			
 			
