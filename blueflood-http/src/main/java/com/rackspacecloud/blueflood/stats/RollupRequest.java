@@ -69,7 +69,7 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 				List<Double> constantValues = new ArrayList<Double>();
 				for (Target param : t.getParameters()) {
 					if (param.isConstantValue()) {
-						constantValues.add(param.getConstantValue());
+						constantValues.add(param.getConstantParam());
 					} else {
 						params.add(this.getData(param));
 					}
