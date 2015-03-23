@@ -3,7 +3,6 @@ package com.rackspacecloud.blueflood.stats;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,8 +31,6 @@ public class ResponseSerializer {
 		
 		serie.add("target", new JsonPrimitive(serializeTargetName(target)));
 		serie.add("datapoints", serializeDatapoints(datapoints));
-		
-		Gson gson = new Gson();
 		
 		return serie;
 	}
