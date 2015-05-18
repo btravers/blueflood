@@ -9,7 +9,7 @@ The tool has 2 parts:
 
 1. **RangeDownloader**: 
  
-	As the functionName suggests, this class will kick off a process to start grabbing raw metric files from Rackspace Cloud Files.
+	As the name suggests, this class will kick off a process to start grabbing raw metric files from Rackspace Cloud Files. 
 
 1. **OufOfBandRollup**: 
 
@@ -27,7 +27,7 @@ You will want to create a `.last_marker` file to run this tool efficiently.  Her
    * The value of the marker file must match the Cloud File filename format that the metrics are stored in.
       * For example, to start backfilling from
 1410217462000, we set the last marker value to 20140908_1400199246233_0.json.gz.
-      * Note, the '.json.gz' file extension is an artifact of the way we functionName these backup files.  The format is `{data_ts_chunk.json.gz}`.  You can change this marker to account for the way your backup files format looks like.
+      * Note, the '.json.gz' file extension is an artifact of the way we name these backup files.  The format is `{data_ts_chunk.json.gz}`.  You can change this marker to account for the way your backup files format looks like.
    * As the files start getting downloaded, RangeDownloader will keep on updating the last marker value and persisting it to the disk, so that the downloads can be resumed later.
    * If this file is not found, the RangeDownloader will start from the beginning of time and keep on listing metric files in Cloud Files until it gets files within the supplied range.  This can take a very long time, so create a marker file and save yourself hours of waiting!
    * It may be the case that the first Cloud File that includes data for your time range was created before your `REPLAY_PERIOD_START`.  If so, you may miss some metrics within your stated range if you set your marker file to be exactly the same as your `REPLAY_PERIOD_START`.  We recommend setting your marker file to 15 minutes before your `REPLAY_PERIOD_START` in order to feel confident that you will find the first Cloud File that contains data for your range.

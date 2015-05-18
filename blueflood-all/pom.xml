@@ -10,7 +10,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <functionName>blueflood-all</functionName>
+  <name>blueflood-all</name>
   <artifactId>blueflood-all</artifactId>
   <packaging>jar</packaging>
 

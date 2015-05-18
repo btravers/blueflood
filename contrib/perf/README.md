@@ -17,7 +17,7 @@ Tools to benchmark HTTP Ingestion of metric data
     -c, --chunked     Whether to use chunked encoding                                                                                   [default: false]
     -r, --reports     Maximum number of reporting intervals (each 10s), then stop the benchmark                                             [default: 0]
     --statsd          Whether to report to statsd. Defaults to reporting to a local statsd on default port                               [default: true]
-    --id, --tenant                                                                                                                 [default: "123456"]
+    --id, --tenantId                                                                                                                 [default: "123456"]
 
 #### Output Column Explanation:
 

@@ -33,11 +33,11 @@ class LogStash::Outputs::Blueflood < LogStash::Outputs::Base
   
   # This setting is the id of the tenant for which you are sending metrics
   # Blueflood is a multi-tenant metrics store. 
-  # Sample Value: My company  functionName ie tgCompany
+  # Sample Value: My company  name ie tgCompany
   config :tenant_id, :validate => :string, :required => true
 
   # This setting is used to send well formed json that Blueflood expects
-  # Sample Value: '[{"collectionTime": 1376509892612, "ttlInSeconds": 172800, "metricValue": 66, "name":"example.metric.one"}]'
+  # Sample Value: '[{"collectionTime": 1376509892612, "ttlInSeconds": 172800, "metricValue": 66, "metricName":"example.metric.one"}]'
   # See usage in conf file https://github.com/rackerlabs/blueflood/tree/master/contrib/logstash-blueflood/blueflood.conf
   # Either this or :hash_metrics is required
   config :json_metrics, :validate => :string
@@ -96,7 +96,7 @@ class LogStash::Outputs::Blueflood < LogStash::Outputs::Base
           @logger.debug("processing", :metric => metric, :value => value)
           metric = event.sprintf(metric)
           next unless include_metrics.empty? || include_metrics.any? { |regexp| value.match(regexp) }
-          jsondata = {collectionTime: timestamp.to_i, ttlInSeconds: @ttl.to_i, metricValue: event.sprintf(value).to_f, name: event.sprintf(metric)}
+          jsondata = {collectionTime: timestamp.to_i, ttlInSeconds: @ttl.to_i, metricValue: event.sprintf(value).to_f, metricName: event.sprintf(metric)}
 
           messages << jsondata
         end

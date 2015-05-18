@@ -31,7 +31,7 @@ except ImportError:
                       'Please install it using pip.')
 
 
-def _generate_metrics_data(tenant, name):
+def _generate_metrics_data(tenantId, metricName):
     data = []
     # Blueflood understands millis since epoch only
     now = long(time.time() * 1000)
@@ -41,7 +41,7 @@ def _generate_metrics_data(tenant, name):
     for i in range(100):
         metric = {}
         metric['collectionTime'] = endTimestamp
-        metric['name'] = name
+        metric['metricName'] = metricName
         metric['metricValue'] = random.randint(1, 100)
         metric['ttlInSeconds'] = 2 * 24 * 60 * 60  # 2 days
         metric['unit'] = 'seconds'
@@ -51,9 +51,9 @@ def _generate_metrics_data(tenant, name):
     return data, startTimestamp, endTimestamp
 
 
-def _get_metrics_url(host, port, scheme, tenant):
+def _get_metrics_url(host, port, scheme, tenantId):
     return scheme + '://' + host + ':' + port + '/v1.0/'\
-        + tenant + '/experimental/metrics'
+        + tenantId + '/experimental/metrics'
 
 
 def main():
@@ -70,25 +70,25 @@ def main():
     if not options.port:
         options.port = '19000'
 
-    tenant = 'ac' + str(uuid.uuid1())
-    name = 'met.' + str(uuid.uuid1())
+    tenantId = 'ac' + str(uuid.uuid1())
+    metricName = 'met.' + str(uuid.uuid1())
 
-    (payload, start, end) = _generate_metrics_data(tenant, name)
+    (payload, start, end) = _generate_metrics_data(tenantId, metricName)
     prettyjsondata = json.dumps(payload, indent=4, separators=(',', ': '))
     print(prettyjsondata)
 
-    url = _get_metrics_url(options.host, options.port, 'http', tenant)
+    url = _get_metrics_url(options.host, options.port, 'http', tenantId)
     print(url)
 
     try:
-        print('Writing metrics for tenant: %s, metric functionName: %s,\
-            start: %d, end: %d' % (tenant, name, start, end))
+        print('Writing metrics for tenant: %s, metric name: %s,\
+            start: %d, end: %d' % (tenantId, metricName, start, end))
         r = requests.post(url, data=json.dumps(payload))
         print('Response from server %s' % (r))
         print('To retrive the generated data with retrieve.py script, use the following command (assuming port number 20000):')
         print('')
         print('./retrieve.py --host %s --port 20000 --metric %s --tenant %s --from %s --to %s --points 100' \
-            % (options.host, name, tenant, start - 100000000, end + 100000000))
+            % (options.host, metricName, tenantId, start - 100000000, end + 100000000))
         print('')
     except Exception, ex:
         print(ex)
