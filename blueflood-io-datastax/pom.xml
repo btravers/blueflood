@@ -10,7 +10,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood IO Bindings for Datastax Java Driver</name>
+  <functionName>Blueflood IO Bindings for Datastax Java Driver</functionName>
   <artifactId>blueflood-io-datastax</artifactId>
   <packaging>jar</packaging>
 

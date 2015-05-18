@@ -16,7 +16,7 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 
 	private Query query;
 	private boolean isResolution;
-	
+
 	public RollupRequest(Query q) {
 		this.query = q;
 	}
@@ -37,28 +37,28 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 		Granularity g = Granularity.granularities()[resolution.getValue()];
 		return getRollupByGranularity(tenantId, metric, from, to, g);
 	}
-	
+
 	public Map<Target, MetricData> getData() throws TargetTypeException, SerializationException {
-		if (this.query.getMaxDataPoints() == 0) {
+		if (this.query.getPoints() == 0) {
 			this.isResolution = true;
 		} else {
 			this.isResolution = false;
 		}
 		Map<Target, MetricData> result = new HashMap<Target, MetricData>();
-		
+
 		for (Target t : this.query.getTargets()) {
 			result.put(t, this.getData(t));
 		}
 		return result;
 	}
-	
+
 	public MetricData getData(Target t) throws TargetTypeException, SerializationException {
 		if (t.isMetric()) {
 			if (t.isValidMetric()) {
 				if (this.isResolution) {
-					return GetDataByResolution(t.getTenantId(), t.getMetricName(), this.query.getFrom(), this.query.getTo(), this.query.getResolution());
+					return GetDataByResolution(t.getTenant(), t.getName(), this.query.getFrom(), this.query.getTo(), this.query.getResolution());
 				} else {
-					return GetDataByPoints(t.getTenantId(), t.getMetricName(), this.query.getFrom(), this.query.getTo(), this.query.getMaxDataPoints());
+					return GetDataByPoints(t.getTenant(), t.getName(), this.query.getFrom(), this.query.getTo(), this.query.getPoints());
 				}
 			} else {
 				throw new TargetTypeException("Invalid target.");
@@ -69,12 +69,12 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 				List<Double> constantValues = new ArrayList<Double>();
 				for (Target param : t.getParameters()) {
 					if (param.isConstantValue()) {
-						constantValues.add(param.getConstantParam());
+						constantValues.add(param.getConstant());
 					} else {
 						params.add(this.getData(param));
 					}
 				}
-				StatFunction function = StatFunction.fromString(t.getName());
+				StatFunction function = StatFunction.fromString(t.getFunctionName());
 				if (function == null) {
 					throw new TargetTypeException("Unexpected function.");
 				}

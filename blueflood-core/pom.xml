@@ -23,7 +23,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood Core Engine</name>
+  <functionName>Blueflood Core Engine</functionName>
   <artifactId>blueflood-core</artifactId>
 
   <properties>

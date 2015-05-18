@@ -21,7 +21,7 @@
 
   <groupId>com.rackspacecloud</groupId>
   <artifactId>blueflood</artifactId>
-  <name>Blueflood</name>
+  <functionName>Blueflood</functionName>
   <packaging>pom</packaging>
   <version>2.0.0-SNAPSHOT</version>
   <modules>
@@ -288,7 +288,7 @@
 
   <licenses>
     <license>
-      <name>The Apache Software License, Version 2.0</name>
+      <functionName>The Apache Software License, Version 2.0</functionName>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
@@ -309,52 +309,52 @@
   <developers>
     <developer>
       <id>fourk</id>
-      <name>James Burkhart</name>
+      <functionName>James Burkhart</functionName>
       <email>j+github@hip.st</email>
     </developer>
     <developer>
       <id>wolfdancer</id>
-      <name>Shane Duan</name>
+      <functionName>Shane Duan</functionName>
       <email>shane.duan@rackspace.com</email>
     </developer>
     <developer>
       <id>gdusbabek</id>
-      <name>Gary Dusbabek</name>
+      <functionName>Gary Dusbabek</functionName>
       <email>gdusbabek@gmail.com</email>
     </developer>
     <developer>
       <id>chinmay-gupte</id>
-      <name>Chinmay Gupte</name>
+      <functionName>Chinmay Gupte</functionName>
       <email>chinmay.gupte@rackspace.com</email>
     </developer>
     <developer>
       <id>lakshmi-kannan</id>
-      <name>Lakshmi Kannan</name>
+      <functionName>Lakshmi Kannan</functionName>
       <email>lakshmi.kannan@rackspace.com</email>
     </developer>
     <developer>
       <id>jeeyoungk</id>
-      <name>Jeeyoung Kim</name>
+      <functionName>Jeeyoung Kim</functionName>
       <email>jeeyoungk@gmail.com</email>
     </developer>
     <developer>
       <id>dlobue</id>
-      <name>Dominic LoBue</name>
+      <functionName>Dominic LoBue</functionName>
       <email>dominic.lobue@rackspace.com</email>
     </developer>
     <developer>
       <id>stackedsax</id>
-      <name>Alex Scammon</name>
+      <functionName>Alex Scammon</functionName>
       <email>alexander.scammon@rackspace.com</email>
     </developer>
     <developer>
       <id>tilogaat</id>
-      <name>Tilottama Gaat</name>
+      <functionName>Tilottama Gaat</functionName>
       <email>tilottama.gaat@rackspace.com</email>
     </developer>
     <developer>
         <id>georgejahad</id>
-        <name>George Jahad</name>
+        <functionName>George Jahad</functionName>
         <email>george.jahad@rackspace.com</email>
     </developer>
   </developers>

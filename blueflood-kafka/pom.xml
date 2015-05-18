@@ -24,7 +24,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood Rollup Kafka Producer</name>
+  <functionName>Blueflood Rollup Kafka Producer</functionName>
   <artifactId>blueflood-kafka</artifactId>
   <packaging>jar</packaging>
 

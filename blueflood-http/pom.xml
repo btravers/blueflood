@@ -26,7 +26,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood HTTP Ingestion and Querying</name>
+  <functionName>Blueflood HTTP Ingestion and Querying</functionName>
   <artifactId>blueflood-http</artifactId>
   <packaging>jar</packaging>
 

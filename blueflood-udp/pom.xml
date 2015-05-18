@@ -10,7 +10,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood UDP Ingestion</name>
+  <functionName>Blueflood UDP Ingestion</functionName>
   <artifactId>blueflood-udp</artifactId>
   <packaging>jar</packaging>
 

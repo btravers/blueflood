@@ -24,7 +24,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood Out-of-band Rollup Tools</name>
+  <functionName>Blueflood Out-of-band Rollup Tools</functionName>
   <artifactId>blueflood-rollupTools</artifactId>
   <packaging>jar</packaging>
 

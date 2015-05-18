@@ -56,19 +56,19 @@ You deal with the line endings and multiple lines. I've broken them up for clari
         "collectionTime": 1376509892612,
         "ttlInSeconds": 172800,
         "metricValue": 66,
-        "metricName": "example.metric.one",
+        "name": "example.metric.one",
         "tags": ["aaa", "bbb"],
         "metadata": { "ccc": "CCCC", "ddd": "DDDD" }
       }, {
         "collectionTime": 1376509892612,
         "ttlInSeconds": 172800,
         "metricValue": 49.21,
-        "metricName": "example.metric.two" 
+        "name": "example.metric.two"
       }, {
         "collectionTime": 1376509892612,
         "ttlInSeconds": 172800,
         "metricValue": 66,
-        "metricName": "example.metric.three"
+        "name": "example.metric.three"
       } 
     ]'
 
@@ -83,7 +83,7 @@ If your are sending data for multiple tenants, you need to include the tenant ID
         "collectionTime": 1376509892612, 
         "ttlInSeconds": 172800, 
         "metricValue": 66, 
-        "metricName": "example.metric.one", 
+        "name": "example.metric.one",
         "tags": ["aaa", "bbb"], 
         "metadata": { "ccc": "CCCC", "ddd": "DDDD" } 
       }, { 
@@ -91,13 +91,13 @@ If your are sending data for multiple tenants, you need to include the tenant ID
         "collectionTime": 1376509892612, 
         "ttlInSeconds": 172800, 
         "metricValue": 49.21, 
-        "metricName": "example.metric.two" 
+        "name": "example.metric.two"
       }, { 
         "tenant": "7777777", 
         "collectionTime": 1376509892612, 
         "ttlInSeconds": 172800, 
         "metricValue": 66, 
-        "metricName": "example.metric.three" 
+        "name": "example.metric.three"
       } 
     ]'
 
@@ -111,16 +111,16 @@ Histograms, while sent from statsD, are ignored by Blueflood.
     -d '{
       "collectionTime": 111111111, 
       "gauges": [
-        { "name": "gauge_name", "value": 42 }, 
-        { "name": "other_gauge", "value": 77 }
+        { "functionName": "gauge_name", "value": 42 },
+        { "functionName": "other_gauge", "value": 77 }
       ], 
       "counters": [
-        { "name": "counter_name", "value": 32, "rate": 2.32 },
-        { "name": "other_counter", "value": 23, "rate": 3.2}
+        { "functionName": "counter_name", "value": 32, "rate": 2.32 },
+        { "functionName": "other_counter", "value": 23, "rate": 3.2}
       ], 
       "timers": [
         { 
-          "name": "timer_name", 
+          "functionName": "timer_name",
           "count": 32, 
           "rate": 2.3, 
           "min": 1, 
@@ -139,7 +139,7 @@ Histograms, while sent from statsD, are ignored by Blueflood.
             "bin_inf": 0 
           } 
         }, { 
-          "name": "other_timer", 
+          "functionName": "other_timer",
           "count": 332, 
           "rate": 32.3, 
           "min": 31, 
@@ -161,10 +161,10 @@ Histograms, while sent from statsD, are ignored by Blueflood.
       ], 
       "sets": [
         { 
-          "name": "set_name", 
+          "functionName": "set_name",
           "values": ["foo", "bar", "baz"] 
         },{
-          "name": "other_set", "values":["fiz", "gib", "sid"]
+          "functionName": "other_set", "values":["fiz", "gib", "sid"]
         }
       ] 
     }'
@@ -177,17 +177,17 @@ Same as above, but lets you specify tenant per metric.
     -d '{
       "collectionTime": 111111111, 
       "gauges": [
-        { "tenant": "12345", "name": "gauge_name", "value": 42 }, 
-        { "tenant": "12346", "name": "other_gauge", "value": 77 }
+        { "tenant": "12345", "functionName": "gauge_name", "value": 42 },
+        { "tenant": "12346", "functionName": "other_gauge", "value": 77 }
       ], 
       "counters": [
-        { "tenant": "12347", "name": "counter_name", "value": 32, "rate": 2.32 },
-        { "tenant": "12348", "name": "other_counter", "value": 23, "rate": 3.2}
+        { "tenant": "12347", "functionName": "counter_name", "value": 32, "rate": 2.32 },
+        { "tenant": "12348", "functionName": "other_counter", "value": 23, "rate": 3.2}
       ], 
       "timers": [
         { 
           "tenant": "12349", 
-          "name": "timer_name", 
+          "functionName": "timer_name",
           "count": 32, 
           "rate": 2.3, 
           "min": 1, 
@@ -207,7 +207,7 @@ Same as above, but lets you specify tenant per metric.
           } 
         }, { 
           "tenant": "12350", 
-          "name": "other_timer", 
+          "functionName": "other_timer",
           "count": 332, 
           "rate": 32.3, 
           "min": 31, 
@@ -230,11 +230,11 @@ Same as above, but lets you specify tenant per metric.
       "sets": [
         {
           "tenant": "12351", 
-          "name": "set_name", 
+          "functionName": "set_name",
           "values": ["foo", "bar", "baz"] 
         },{
           "tenant": "12352", 
-          "name": "other_set", 
+          "functionName": "other_set",
           "values":["fiz", "gib", "sid"]
         }
       ] 

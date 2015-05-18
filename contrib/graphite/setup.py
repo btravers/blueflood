@@ -4,7 +4,7 @@ from setuptools import setup
 version = '0.0.1'
 
 setup(
-  name='blueflood',
+  functionName='blueflood',
   version=version,
   url='https://github.com/rackerlabs/blueflood',
   license='APL2',

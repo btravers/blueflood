@@ -23,7 +23,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Blueflood Dropwizard Logging</name>
+  <functionName>Blueflood Dropwizard Logging</functionName>
   <artifactId>blueflood-dropwizard-logging</artifactId>
   
   <dependencies>

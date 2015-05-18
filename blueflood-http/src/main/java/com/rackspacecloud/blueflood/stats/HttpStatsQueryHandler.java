@@ -30,33 +30,32 @@ public class HttpStatsQueryHandler implements HttpRequestHandler {
 	private final Timer httpMetricsFetchTimer = Metrics.timer(HttpStatsQueryHandler.class, "Handle HTTP request for metrics");
 	private RequestParser parser;
 	private final int maxMetricsPerRequest;
-	
+
 	public HttpStatsQueryHandler() {
 		Configuration config = Configuration.getInstance();
-		
+
 		parser = new RequestParser();
 		maxMetricsPerRequest = config.getIntegerProperty(HttpConfig.MAX_METRICS_PER_BATCH_QUERY);
 	}
-	
+
 	@Override
 	public void handle(ChannelHandlerContext ctx, HttpRequest request) {
 		final String body = request.getContent().toString(Constants.DEFAULT_CHARSET);
-		
+
 		Query query;
 		try {
 			query = parser.parse(body);
 		} catch (InvalidRequestException e) {
 			log.error(e.getMessage(), e);
 			sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.BAD_REQUEST);
-            return;
+			return;
 		}
-		
+
 		if (query.getTargets().size() > maxMetricsPerRequest) {
-			sendResponse(ctx, request, "Too many metrics fetch in a single call. Max limit is " + maxMetricsPerRequest
-                    + ".", HttpResponseStatus.BAD_REQUEST);
-            return;
+			sendResponse(ctx, request, "Too many metrics fetch in a single call. Max limit is " + maxMetricsPerRequest + ".", HttpResponseStatus.BAD_REQUEST);
+			return;
 		}
-		
+
 		final Timer.Context httpMetricsFetchTimerContext = httpMetricsFetchTimer.time();
 		RollupRequest rollup = new RollupRequest(query);
 		try {
@@ -65,19 +64,19 @@ public class HttpStatsQueryHandler implements HttpRequestHandler {
 			sendResponse(ctx, request, response.toString(), HttpResponseStatus.OK);
 		} catch (SerializationException e) {
 			log.error(e.getMessage(), e);
-            sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.INTERNAL_SERVER_ERROR);
+			sendResponse(ctx, request, "Invalid body. " + e.getMessage(), HttpResponseStatus.INTERNAL_SERVER_ERROR);
 		} catch (TargetTypeException e) {
 			log.error(e.getMessage(), e);
-            sendResponse(ctx, request, e.getMessage(), HttpResponseStatus.BAD_REQUEST);
+			sendResponse(ctx, request, e.getMessage(), HttpResponseStatus.BAD_REQUEST);
 		} finally {
-            httpMetricsFetchTimerContext.stop();
-        }
-		
+			httpMetricsFetchTimerContext.stop();
+		}
+
 	}
-	
+
 	private void sendResponse(ChannelHandlerContext channel, HttpRequest request, String messageBody, HttpResponseStatus status) {
 		HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status);
-		
+
 		if (messageBody != null && !messageBody.isEmpty()) {
 			response.setContent(ChannelBuffers.copiedBuffer(messageBody, Constants.DEFAULT_CHARSET));
 		}

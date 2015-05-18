@@ -25,10 +25,10 @@ except ImportError:
                       'Please install it using pip.')
 
 
-def _get_metrics_query_url(host, port, scheme, tenantId,
-                           metricName, start, end, points):
-    return scheme + '://' + host + ':' + port + '/v1.0/' + tenantId\
-        + '/experimental/views/metric_data/' + metricName\
+def _get_metrics_query_url(host, port, scheme, tenant,
+                           name, start, end, points):
+    return scheme + '://' + host + ':' + port + '/v1.0/' + tenant\
+        + '/experimental/views/metric_data/' + name\
         + '?from=' + str(start) + '&to=' + str(end) + '&points=' + str(points)
 
 
@@ -37,7 +37,7 @@ def main():
             '--host=<host running blueflood> \n' + \
             '--port=<blueflood HTTP metrics query port> \n' + \
             '--tenant=<blueflood tenant id> \n' + \
-            '--metric=<name of the metric to fetch data for> \n' + \
+            '--metric=<functionName of the metric to fetch data for> \n' + \
             '--from=<start timestamp (millis sinch epoch)> \n' + \
             '--to=<end timestamp (millis sinch epoch)> \n' + \
             '--points=<number of points to fetch>'
@@ -45,8 +45,8 @@ def main():
     parser = OptionParser(usage=usage)
     parser.add_option('--host', dest='host', help='Blueflood host')
     parser.add_option('--port', dest='port', help='HTTP query port')
-    parser.add_option('--tenant', dest='tenantId', help='Tenant id')
-    parser.add_option('--metric', dest='metricName', help='Metric to\
+    parser.add_option('--tenant', dest='tenant', help='Tenant id')
+    parser.add_option('--metric', dest='name', help='Metric to\
         fetch data for')
     parser.add_option('--from', dest='startTime', help='Start timestamp')
     parser.add_option('--to', dest='endTime', help='End timestamp')
@@ -58,10 +58,10 @@ def main():
         options.host = 'localhost'
     if not options.port:
         options.port = '20000'
-    if not options.tenantId:
+    if not options.tenant:
         print(usage)
         sys.exit(1)
-    if not options.metricName:
+    if not options.name:
         print(usage)
         sys.exit(1)
     if not options.points:
@@ -74,7 +74,7 @@ def main():
         options.endTime = now
 
     url = _get_metrics_query_url(options.host, options.port, 'http',
-                                 options.tenantId, options.metricName,
+                                 options.tenant, options.name,
                                  options.startTime, options.endTime,
                                  options.points)
     print(url)
