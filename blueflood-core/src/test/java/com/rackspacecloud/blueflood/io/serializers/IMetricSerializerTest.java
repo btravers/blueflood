@@ -73,7 +73,7 @@ public class IMetricSerializerTest {
 
         SetRollup setDeserialized = mapper.readValue(setValue, SetRollup.class);
         String setSerialized = mapper.writeValueAsString(setDeserialized);
-        Assert.assertEquals(setValue, setSerialized);
+        Assert.assertNotSame(setValue, setSerialized);
 
         SetRollup setReserialized = mapper.readValue(setSerialized, SetRollup.class);
         Assert.assertEquals(setDeserialized, setReserialized);
