@@ -69,12 +69,12 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 				List<Double> constantValues = new ArrayList<Double>();
 				for (Target param : t.getParameters()) {
 					if (param.isConstantValue()) {
-						constantValues.add(param.getConstantParam());
+						constantValues.add(param.getConstant());
 					} else {
 						params.add(this.getData(param));
 					}
 				}
-				StatFunction function = StatFunction.fromString(t.getName());
+				StatFunction function = StatFunction.fromString(t.getFunction());
 				if (function == null) {
 					throw new TargetTypeException("Unexpected function.");
 				}

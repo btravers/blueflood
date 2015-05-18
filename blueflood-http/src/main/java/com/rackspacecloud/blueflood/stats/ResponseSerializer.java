@@ -39,7 +39,7 @@ public class ResponseSerializer {
 		if (target.isMetric()) {
 			return target.getTenantId() + ":" + target.getMetricName();
 		} else if (target.isFunction()) {
-			String name = target.getName() + "(";
+			String name = target.getFunction() + "(";
 			
 			Iterator<Target> it = target.getParameters().iterator();			
 			while (it.hasNext()) {
@@ -53,7 +53,7 @@ public class ResponseSerializer {
 			name += ")";
 			return name;
 		} else {
-			return target.getConstantParam().toString();
+			return target.getConstant().toString();
 		}
 	}
 	

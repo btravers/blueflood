@@ -6,11 +6,11 @@ import com.rackspacecloud.blueflood.types.Locator;
 
 public class Target {
 	
-	private String name;
+	private String function;
 	private List<Target> parameters;
 	private String tenantId;
 	private String metricName;
-	private Double constantParam;
+	private Double constant;
 	
 	public String getTenantId() {
 		return tenantId;
@@ -28,12 +28,12 @@ public class Target {
 		this.metricName = metricName;
 	}
 	
-	public String getName() {
-		return name;
+	public String getFunction() {
+		return function;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setFunction(String function) {
+		this.function = function;
 	}
 	
 	public List<Target> getParameters() {
@@ -44,12 +44,12 @@ public class Target {
 		this.parameters = parameters;
 	}
 	
-	public Double getConstantParam() {
-		return constantParam;
+	public Double getConstant() {
+		return constant;
 	}
 	
-	public void setConstantParam(Double constantParam) {
-		this.constantParam = constantParam;
+	public void setConstant(Double constant) {
+		this.constant = constant;
 	}
 	
 	public boolean isMetric() {
@@ -57,11 +57,11 @@ public class Target {
 	}
 	
 	public boolean isFunction() {
-		return name != null;
+		return function != null;
 	}
 	
 	public boolean isConstantValue() {
-		return constantParam != null;
+		return constant != null;
 	}
 	
 	public boolean isValidMetric() {
@@ -73,7 +73,7 @@ public class Target {
 	}
 	
 	public boolean isValidFunction() {
-		if (this.name != null && this.parameters != null && !this.parameters.isEmpty()) {
+		if (this.function != null && this.parameters != null && !this.parameters.isEmpty()) {
 			return true;
 		} else {
 			return false;
