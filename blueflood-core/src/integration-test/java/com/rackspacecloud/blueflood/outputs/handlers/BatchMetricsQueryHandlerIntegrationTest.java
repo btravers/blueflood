@@ -105,7 +105,6 @@ public class BatchMetricsQueryHandlerIntegrationTest extends IntegrationTestBase
         answers.put(strLocator, answerForStringMetric);
     }
 
-    @Test
     public void testBatchGran(Granularity gran) throws Exception {
         ThreadPoolExecutor executor = new ThreadPoolBuilder().withBoundedQueue(10)
                 .withCorePoolSize(1).withMaxPoolSize(1).withName("TestBatchQuery").build();
@@ -155,16 +154,18 @@ public class BatchMetricsQueryHandlerIntegrationTest extends IntegrationTestBase
             Assert.assertEquals((int) answers.get(item.getKey()).get(gran), data.getData().getPoints().size());
             //Make sure all the data are Rollups
             if (item.getKey().equals(metricLocator)) {
-            	for (Points.Point point : (Iterable<Points.Point>) data.getData().getPoints().values()) {
-            		Assert.assertTrue(point.getData() instanceof Rollup);
-            	}
+
+                for (Points.Point point : (Iterable<Points.Point>) 
+                        data.getData().getPoints().values()) {
+                    Assert.assertTrue(point.getData() instanceof Rollup);
+                }
             }
         }
     }
-    
+
     @Test
     public void testBatchGet() throws Exception {
-    	testBatchGran(Granularity.FULL);
-    	testBatchGran(Granularity.MIN_20);
+        testBatchGran(Granularity.FULL);
+        testBatchGran(Granularity.MIN_20);
     }
 }

@@ -510,7 +510,6 @@ public class AstyanaxReader extends AstyanaxIO {
         return points;
     }
 
-    // todo: don't need gran anymore.
     private Points.Point pointFromColumn(Column<Long> column, AbstractSerializer serializer) {
         if (serializer instanceof NumericSerializer.RawSerializer)
             return new Points.Point(column.getName(), new SimpleNumber(column.getValue(serializer)));
