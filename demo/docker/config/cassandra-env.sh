@@ -217,7 +217,7 @@ fi
 # JVM_OPTS="$JVM_OPTS -XX:PrintFLSStatistics=1"
 # JVM_OPTS="$JVM_OPTS -Xloggc:/var/log/cassandra/gc-`date +%s`.log"
 # If you are using JDK 6u34 7u2 or later you can enable GC log rotation
-# don't stick the date in the log functionName if rotation is on.
+# don't stick the date in the log name if rotation is on.
 # JVM_OPTS="$JVM_OPTS -Xloggc:/var/log/cassandra/gc.log"
 # JVM_OPTS="$JVM_OPTS -XX:+UseGCLogFileRotation"
 # JVM_OPTS="$JVM_OPTS -XX:NumberOfGCLogFiles=10"
@@ -234,7 +234,7 @@ JVM_OPTS="$JVM_OPTS -Djava.net.preferIPv4Stack=true"
 # jmx: metrics and administration interface
 #
 # add this if you're having trouble connecting:
-# JVM_OPTS="$JVM_OPTS -Djava.rmi.server.hostname=<public functionName>"
+# JVM_OPTS="$JVM_OPTS -Djava.rmi.server.hostname=<public name>"
 #
 # see
 # https://blogs.oracle.com/jmxetc/entry/troubleshooting_connection_problems_in_jconsole

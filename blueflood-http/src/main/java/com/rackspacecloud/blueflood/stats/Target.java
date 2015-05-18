@@ -2,90 +2,88 @@ package com.rackspacecloud.blueflood.stats;
 
 import java.util.List;
 
-import com.google.gson.annotations.SerializedName;
 import com.rackspacecloud.blueflood.types.Locator;
 
 public class Target {
-
-	@SerializedName("function")
-	private String functionName;
-	private List<Target> parameters;
-	private String tenant;
+	
 	private String name;
-	private Double constant;
-
-	public String getTenant() {
-		return tenant;
+	private List<Target> parameters;
+	private String tenantId;
+	private String metricName;
+	private Double constantParam;
+	
+	public String getTenantId() {
+		return tenantId;
 	}
-
-	public void setTenant(String tenant) {
-		this.tenant = tenant;
+	
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
-
+	
+	public String getMetricName() {
+		return metricName;
+	}
+	
+	public void setMetricName(String metricName) {
+		this.metricName = metricName;
+	}
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getFunctionName() {
-		return functionName;
-	}
-
-	public void setFunctionName(String functionName) {
-		this.functionName = functionName;
-	}
-
+	
 	public List<Target> getParameters() {
 		return parameters;
 	}
-
+	
 	public void setParameters(List<Target> parameters) {
 		this.parameters = parameters;
 	}
-
-	public Double getConstant() {
-		return constant;
+	
+	public Double getConstantParam() {
+		return constantParam;
 	}
-
-	public void setConstant(Double constant) {
-		this.constant = constant;
+	
+	public void setConstantParam(Double constantParam) {
+		this.constantParam = constantParam;
 	}
-
+	
 	public boolean isMetric() {
-		return tenant != null;
+		return tenantId != null;
 	}
-
+	
 	public boolean isFunction() {
-		return functionName != null;
+		return name != null;
 	}
-
+	
 	public boolean isConstantValue() {
-		return constant != null;
+		return constantParam != null;
 	}
-
+	
 	public boolean isValidMetric() {
-		if (this.name != null && this.tenant != null) {
+		if (this.metricName != null && this.tenantId != null) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
+	
 	public boolean isValidFunction() {
-		if (this.functionName != null && this.parameters != null && !this.parameters.isEmpty()) {
+		if (this.name != null && this.parameters != null && !this.parameters.isEmpty()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
+	
 	public Locator getLocator() throws TargetTypeException {
 		if (this.isMetric()) {
 			throw new TargetTypeException("Expecting a metric");
 		}
-		return Locator.createLocatorFromPathComponents(tenant, name);
+		return Locator.createLocatorFromPathComponents(tenantId, metricName);
 	}
 }

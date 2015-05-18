@@ -5,7 +5,7 @@
 #   full explanations of configuration directives
 # /NOTE
 
-# The functionName of the cluster. This is mainly used to prevent machines in
+# The name of the cluster. This is mainly used to prevent machines in
 # one logical cluster from joining another.
 cluster_name: Blueflood
 
@@ -170,7 +170,7 @@ storage_port: 7000
 #
 # Leaving it blank leaves it up to InetAddress.getLocalHost(). This
 # will always do the Right Thing *if* the node is properly configured
-# (hostname, functionName resolution, etc), and the Right Thing is to use the
+# (hostname, name resolution, etc), and the Right Thing is to use the
 # address associated with the hostname (it might not be).
 #
 # Setting this to 0.0.0.0 is always wrong.

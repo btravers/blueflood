@@ -24,7 +24,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <functionName>Blueflood Rollup Cloudfiles Exporter</functionName>
+  <name>Blueflood Rollup Cloudfiles Exporter</name>
   <artifactId>blueflood-cloudfiles</artifactId>
   <packaging>jar</packaging>
 

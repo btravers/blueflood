@@ -23,7 +23,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <functionName>Blueflood Dropwizard HTTP Services</functionName>
+  <name>Blueflood Dropwizard HTTP Services</name>
   <artifactId>blueflood-dropwizard</artifactId>
   <packaging>jar</packaging>
   

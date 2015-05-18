@@ -3,14 +3,14 @@
   <groupId>com.stuartwarren</groupId>
   <artifactId>logit</artifactId>
   <packaging>jar</packaging>
-  <functionName>LogIt</functionName>
+  <name>LogIt</name>
   <version>0.5.8</version>
   <description>Java Logger to send logs in json format over zeromq</description>
   <url>stuartwarren.com</url>
 
   <licenses>
     <license>
-      <functionName>The Apache Software License, Version 2.0</functionName>
+      <name>The Apache Software License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
@@ -25,7 +25,7 @@
   <developers>
     <developer>
       <id>stuart-warren</id>
-      <functionName>Stuart Warren</functionName>
+      <name>Stuart Warren</name>
       <email>stuart@stuartwarren.com</email>
     </developer>
   </developers>
@@ -182,14 +182,14 @@
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>sonatype-nexus-releases</id>
-      <functionName>StuartWarren Repository</functionName>
+      <name>StuartWarren Repository</name>
       <url>http://nexus.stuartwarren.com/nexus/content/repositories/releases/</url>
       <layout>default</layout>
     </repository>
     <snapshotRepository>
       <uniqueVersion>true</uniqueVersion>
       <id>sonatype-nexus-snapshots</id>
-      <functionName>StuartWarren Snapshots</functionName>
+      <name>StuartWarren Snapshots</name>
       <url>http://nexus.stuartwarren.com/nexus/content/repositories/snapshots/</url>
       <layout>default</layout>
     </snapshotRepository>
