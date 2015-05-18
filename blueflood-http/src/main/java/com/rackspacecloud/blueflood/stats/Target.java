@@ -2,10 +2,11 @@ package com.rackspacecloud.blueflood.stats;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
 import com.rackspacecloud.blueflood.types.Locator;
 
 public class Target {
-	
+
 	private String function;
 	private List<Target> parameters;
 	private String tenantId;

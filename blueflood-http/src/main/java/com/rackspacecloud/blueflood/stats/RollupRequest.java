@@ -61,7 +61,7 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 					return GetDataByPoints(t.getTenantId(), t.getMetricName(), this.query.getFrom(), this.query.getTo(), this.query.getMaxDataPoints());
 				}
 			} else {
-				throw new TargetTypeException("Invalid target.");
+				throw new TargetTypeException("Invalid target. Expecting metric but some fields are missing.");
 			}
 		} else if (t.isFunction()) {
 			if (t.isValidFunction()) {
@@ -80,7 +80,7 @@ public class RollupRequest extends RollupHandler implements MetricDataQueryInter
 				}
 				return function.exec(params, constantValues);
 			} else {
-				throw new TargetTypeException("Invalid target.");
+				throw new TargetTypeException("Invalid target. Expecting a function but some fields are missing.");
 			}
 		} else {
 			throw new TargetTypeException("Invalid target.");
