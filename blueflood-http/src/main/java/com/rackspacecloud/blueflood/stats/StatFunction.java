@@ -170,7 +170,7 @@ public enum StatFunction {
 			Points<SimpleNumber> resultPoints = new Points<SimpleNumber>();
 			for (Map.Entry<Long, Point> point : points.entrySet()) {
 				if (prev != null) {
-					double deltaT = (point.getKey() - prevKey)/GRANULARITY;
+					double deltaT = ((double) (point.getKey() - prevKey))/GRANULARITY;
 					if (point.getValue().getData() instanceof SimpleNumber) {
 						Number tmp = ((Point<SimpleNumber>) point.getValue()).getData().getValue();
 						resultPoints.add(new Point<SimpleNumber>(point.getKey(), new SimpleNumber((tmp.doubleValue() - prev.doubleValue()) / deltaT)));
@@ -231,7 +231,7 @@ public enum StatFunction {
 			Points<SimpleNumber> resultPoints = new Points<SimpleNumber>();
 			for (Map.Entry<Long, Point> point : points.entrySet()) {
 				if (prev != null) {
-					double deltaT = (point.getKey() - prevKey)/GRANULARITY;
+					double deltaT = ((double) (point.getKey() - prevKey))/GRANULARITY;
 					Number tmp = null;
 					
 					if (point.getValue().getData() instanceof SimpleNumber) {
